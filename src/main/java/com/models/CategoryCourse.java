@@ -26,10 +26,10 @@ public class CategoryCourse {
 	private int id;
 	
 	@Column(name = "name")
-	@NotBlank(message = "Vui lòng nhập tên danh mục khoá học")
+	@NotBlank(message = "{validate.category.name.req}")
 	private String name;
 	
-	@NotBlank(message = "Vui lòng nhập tên đường dẫn")
+	@NotBlank(message = "{validate.category.slug.req}")
 	@Column(name = "slug")
 	private String slug;
 	

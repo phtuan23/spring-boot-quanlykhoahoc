@@ -2,12 +2,13 @@
 	pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Quản lý khoá học</title>
+<title><spring:message code="Course Manager"/></title>
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/11.2.1/sweetalert2.css"/>
@@ -40,7 +41,9 @@
 							class="img-circle elevation-2" alt="User Image">
 					</div>
 					<div class="info">
-						<a href="#" class="d-block">Admin</a>
+						<a href="#" class="d-block">
+							Admin
+						</a>
 						<a href="${request.contextPath}/logout" class="d-block mt-3"><i class="fa fa-sign-out-alt"></i> <spring:message code="logout" text="default"/></a>
 						<a href="${request.contextPath}/?language=en" class="d-block mt-3"><i class="fa fa-globe"></i> <spring:message code="english" text="default"/></a>
 						<a href="${request.contextPath}/?language=vi" class="d-block mt-3"><i class="fa fa-globe"></i> <spring:message code="vietnamese" text="default"/></a>

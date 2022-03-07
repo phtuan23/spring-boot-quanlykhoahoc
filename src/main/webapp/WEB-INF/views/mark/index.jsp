@@ -87,22 +87,22 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${ page.getContent() }" var="s">
-									<tr>
-										<td>${ s.student.studentCode }</td>
-										<td>${ s.student.name }</td>
-										<td>${ s.student.classroom.name }</td>
-										<td>${ s.subject.name }</td>
-										<td>${ s.score }</td>
-										<td class="text-right float-right">
-											<form class="form-inline" action="" method="get" id="form-update">
-												<div class="form-group">
-													 <input class="form-control subjectId" value="${ s.subject.id }" name="subjectId" hidden="hidden">
-													  <input class="form-control studentId" name="studentId" value="${ s.student.id }" hidden="hidden">
-												    <input class="form-control mark" name="mark" placeholder="Cập nhật Điểm">
-												  </div>
-											 </form>
-										</td>
-									</tr>
+								<tr>
+									<td>${ s.student.studentCode }</td>
+									<td>${ s.student.name }</td>
+									<td>${ s.student.classroom.name }</td>
+									<td>${ s.subject.name }</td>
+									<td>${ s.score }</td>
+									<td class="text-right float-right">
+										<form class="form-inline" action="" method="get" id="form-update">
+											<div class="form-group">
+												 <input class="form-control subjectId" value="${ s.subject.id }" name="subjectId" hidden="hidden">
+												  <input class="form-control studentId" name="studentId" value="${ s.student.id }" hidden="hidden">
+											    <input class="form-control mark" name="mark" placeholder="Cập nhật Điểm">
+											  </div>
+										 </form>
+									</td>
+								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -196,8 +196,22 @@
 
 	$(document).on("change", ".mark", function(e){
 		e.preventDefault();
-		let data = $(this).closest("form").serialize();
-		console.log(data);
+		let form = $(this).closest("form");
+		let data = form.serialize();
+		let url = "http://localhost:8080/mark/update";
+		$.ajax({
+			url,
+			type:"get",
+			data,
+			success: res => {
+				if(res == 200){
+					$("#main-data").load(window.location + " #main-data>*");
+					Swal.fire('Cập nhật thành công','', 'success');
+				}else{
+					Swal.fire('Điểm không hợp lệ','', 'error');
+				}
+			}
+		});
 	});
 
 	$("#choose-class").change(function(){

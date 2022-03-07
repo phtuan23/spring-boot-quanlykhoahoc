@@ -9,6 +9,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,24 +26,31 @@ public class Users {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
+	@NotBlank(message = "Vui lòng nhập họ tên")
 	@Column(name = "name")
 	private String name;
 	
+	@NotBlank(message = "Vui lòng nhập số điện thoại")
 	@Column(name = "phone")
 	private String phone;
 	
+	@NotBlank(message = "Vui lòng nhập Địa chỉ")
 	@Column(name = "address")
 	private String address;
 	
 	@Column(name = "image")
 	private String image;
 	
+	@NotBlank(message = "Vui lòng nhập email")
 	@Column(name = "email")
+	@Email(message = "Địa chỉ email không đúng định dạng")
 	private String email;
 	
+	@NotBlank(message = "Vui lòng nhập Tên đăng nhập")
 	@Column(name = "username")
 	private String username;
 	
+	@NotBlank(message = "Vui lòng nhập Mật khẩu")
 	@Column(name = "password")
 	private String password;
 	
@@ -53,6 +62,11 @@ public class Users {
 	private List<UserRole> userRoles;
 
 	public Users() {
+	}
+
+	public Users(int id) {
+		super();
+		this.id = id;
 	}
 
 	public int getId() {

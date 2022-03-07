@@ -68,38 +68,41 @@ public class CategoryController {
 	public String save(@Valid @ModelAttribute("category") CategoryCourse c, BindingResult result, Model model, 
 			@RequestParam("upload") MultipartFile multipartFile, 
 			RedirectAttributes red) {
-		
-		if(multipartFile.getOriginalFilename() == null || 
-				multipartFile.getOriginalFilename() == "" || 
-				multipartFile.getOriginalFilename().isBlank() || 
-				multipartFile.getOriginalFilename().isEmpty()) {
-			model.addAttribute("err_image","Vui lòng chọn ảnh");
-			return "category/create";
-		}
-		
 		if (result.hasErrors()) {
 			return "category/create";
-		}
-		
-		if (filesStorageService.save(multipartFile)) {
-			c.setImage(URL_UPLOAD + multipartFile.getOriginalFilename());
-			try {
-				CategoryCourse cc = categoryRepository.save(c); 
-				if (cc != null) {
-					red.addFlashAttribute("success","Thêm mới thành công");
-					return "redirect:/category";
-				}else {
-					model.addAttribute("error","Thêm mới thất bại. Vui lòng thử lại");
-					return "category/create";
+		}else {
+			boolean image_err = false;
+			boolean data_err = false;
+			
+			if(multipartFile.getOriginalFilename() == null || 
+					multipartFile.getOriginalFilename() == "" || 
+					multipartFile.getOriginalFilename().isBlank() || 
+					multipartFile.getOriginalFilename().isEmpty()) {
+				image_err = true;
+			}
+			
+			for (var cat : categoryRepository.findAll()) {
+				if (c.getName().equalsIgnoreCase(cat.getName())) {
+					data_err = true;
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				model.addAttribute("error","Tên danh mục đã tồn tại.");
+			}
+			
+			if (!data_err && !image_err) {
+				c.setImage(URL_UPLOAD + multipartFile.getOriginalFilename());
+				categoryRepository.save(c);
+				filesStorageService.save(multipartFile);
+				red.addFlashAttribute("success","Thêm mới thành công");
+				return "redirect:/category";
+			}else {
+				if (data_err) {
+					model.addAttribute("data_err", "Tên danh mục đã tồn tại. Hãy thử lại");
+				}
+				if (image_err) {
+					model.addAttribute("err_image", "Hãy chọn ảnh danh mục");
+				}
+				model.addAttribute("error","Dữ liệu chưa hợp lệ.");
 				return "category/create";
 			}
-		}else {
-			model.addAttribute("err_image","Upload thất bại. Vui lòng kiểm tra lại.");
-			return "category/create"; 
 		}
 	}
 	
@@ -122,26 +125,29 @@ public class CategoryController {
 		c.setImage(category.getImage());
 		if (result.hasErrors()) {
 			return "category/edit";
-		}
-		
-		if (multipartFile.getOriginalFilename() != "" || !multipartFile.getOriginalFilename().isBlank() || !multipartFile.getOriginalFilename().isEmpty()) {
-			c.setImage(URL_UPLOAD + multipartFile.getOriginalFilename());
-			filesStorageService.save(multipartFile);
-		}
-		
-		try {
-			CategoryCourse cc = categoryRepository.save(c);
-			if (cc != null) {
+		}else {
+			boolean data_err = false;
+			
+			for (var cat : categoryRepository.findAll()) {
+				if (c.getName().equalsIgnoreCase(cat.getName()) && cat.getId() != id) {
+					data_err = true;
+				}
+			}
+			
+			if (multipartFile.getOriginalFilename() != "" || !multipartFile.getOriginalFilename().isBlank() || !multipartFile.getOriginalFilename().isEmpty()) {
+				c.setImage(URL_UPLOAD + multipartFile.getOriginalFilename());
+				filesStorageService.save(multipartFile);
+			}
+			
+			if(!data_err) {
+				categoryRepository.save(c);
 				red.addFlashAttribute("success","Cập nhật danh mục ID = " + c.getId() + " thành công");				
 				return "redirect:/category";
 			}else {
-				model.addAttribute("error","Cập nhật thất bại. Vui lòng thử lại");
+				model.addAttribute("error", "Dữ liệu chưa hợp lệ.");
+				model.addAttribute("data_err", "Tên danh mục đã tồn tại");
 				return "category/edit";
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			model.addAttribute("error","Tên danh mục hoặc tên đường dẫn đã tồn tại");
-			return "category/edit";
 		}
 	}
 	

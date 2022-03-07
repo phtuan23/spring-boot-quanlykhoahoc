@@ -27,6 +27,11 @@ public class Role {
 	public Role() {
 	}
 
+	public Role(int id) {
+		super();
+		this.id = id;
+	}
+
 	public int getId() {
 		return id;
 	}

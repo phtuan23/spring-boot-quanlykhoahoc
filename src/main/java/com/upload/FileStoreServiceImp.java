@@ -13,7 +13,7 @@ public class FileStoreServiceImp implements FilesStorageService {
 	private final Path root = Paths.get(path);
 
 	@Override
-	public boolean save(MultipartFile file) {
+	public void save(MultipartFile file) {
 		try {
 			File f = new File(path);
 			File dest = new File(f.getAbsolutePath() + "\\" + file.getOriginalFilename());
@@ -23,8 +23,6 @@ public class FileStoreServiceImp implements FilesStorageService {
 		} catch (Exception e) {
 			e.printStackTrace();
 			System.out.println("lỗi : " + e.getMessage());
-			return false;
 		}
-		return true;
 	}
 }

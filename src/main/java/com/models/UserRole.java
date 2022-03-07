@@ -28,6 +28,12 @@ public class UserRole {
 	public UserRole() {
 	}
 
+	public UserRole(Role role, Users user) {
+		super();
+		this.role = role;
+		this.user = user;
+	}
+
 	public int getId() {
 		return id;
 	}

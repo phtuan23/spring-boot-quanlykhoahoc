@@ -6,8 +6,8 @@
 <style>
 	.errors{
 		color: red;
-		padding: 2px;
-		padding-top: 2px
+		padding-top: 2px;
+		padding: 4px
 	}
 </style>
 <div class="content-wrapper">
@@ -20,11 +20,12 @@
 						  ${ failed }
 						</div>
 					</c:if>
+					
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
-						<li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-						<li class="breadcrumb-item active">Thêm mới</li>
+						<li class="breadcrumb-item"><a href="#"><spring:message code="home"/></a></li>
+						<li class="breadcrumb-item active"><spring:message code="create"/></li>
 					</ol>
 				</div>
 			</div>
@@ -34,7 +35,7 @@
 	<section class="content">
 		<div class="card">
 			<div class="card-header">
-				<h3 class="card-title">Thêm mới Danh mục</h3>
+				<h3 class="card-title">Thêm mới Người dùng</h3>
 				<div class="card-tools">
 					<button type="button" class="btn btn-tool"
 						data-card-widget="collapse" title="Collapse">
@@ -47,33 +48,64 @@
 				</div>
 			</div>
 			<div class="card-body">
-				<form:form action="" method="post" modelAttribute="category" id="form-add">
-					<div class="row">
+				<form:form action="" method="post" modelAttribute="user">
+					<div class="row"> 
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="exampleFormControlInput1">Tên Danh mục</label>
-								<form:input type="text" class="form-control form-control-lg"
-									path="name" id="name" placeholder="Tên Danh mục" />
+								<label for="exampleFormControlInput1"><spring:message code="fullname" text="Fullname"/></label>
+								<form:input class="form-control form-control-lg"
+									path="name"  placeholder="..." />
 								<form:errors cssClass="errors" path="name"/>
+							</div>
+							<div class="form-group">
+								<label for="exampleFormControlInput1"><spring:message code="phone"/></label>
+								<form:input class="form-control form-control-lg"
+									path="phone"  placeholder="..." />
+								<form:errors cssClass="errors" path="phone"/>
+							</div>
+							<div class="form-group">
+								<label for="exampleFormControlInput1"><spring:message code="address"/></label>
+								<form:input class="form-control form-control-lg"
+									path="address"  placeholder="..." />
+								<form:errors cssClass="errors" path="address"/>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="exampleFormControlInput1">Tiêu đề URL</label>
-								<form:input type="text" class="form-control form-control-lg"
-									path="slugName" id="slugName" placeholder="Tiêu đề" />
-								<form:errors cssClass="errors" path="slugName"/>
+								<label for="exampleFormControlInput1"><spring:message code="email"/></label>
+								<form:input class="form-control form-control-lg"
+									path="email"  placeholder="..."/>
+								<form:errors cssClass="errors" path="email"/>
+								<c:if test="${ err_email != null }">
+									<p class="text-danger"> ${ err_email }</p>
+								</c:if>
+							</div>
+							<div class="form-group">
+								<label for="exampleFormControlInput1"><spring:message code="username"/></label>
+								<form:input class="form-control form-control-lg"
+									path="username" placeholder="..."/>
+								<form:errors cssClass="errors" path="username"/>
+								<c:if test="${ err_username != null }">
+									<p class="text-danger"> ${ err_username }</p>
+								</c:if>
+							</div>
+							<div class="form-group">
+								<label for="exampleFormControlInput1"><spring:message code="password"/></label>
+								<form:input type="password" class="form-control form-control-lg"
+									path="password" placeholder="..."/>
+								<form:errors cssClass="errors" path="password"/>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="exampleFormControlSelect1">Trạng thái</label>
-								<form:select class="form-control form-control-lg" path="status">
-									<form:option value="0">Ẩn</form:option>
-									<form:option value="1">Hiển thị</form:option>
-								</form:select>
+								<label for="exampleFormControlSelect1"><spring:message code="role"/></label>
+								<select class="form-control form-control-lg" name="roleId" >
+									<c:forEach items="${ roles }" var="r">
+										<option value="${ r.id }">${ r.name }</option>								
+									</c:forEach>
+								</select>
 							</div>
 						</div>
 						<div class="col-md-6 text-right" style="padding-top: 30px;">
@@ -92,38 +124,7 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script>
 	$(document).ready(function(){
-		$("#name").keyup(function(){
-			let title, slug;
-			//Lấy text từ thẻ input title 
-			title = $("#name").val();
-
-			//Đổi chữ hoa thành chữ thường
-			slug = title.toLowerCase();
-			
-		    //Đổi ký tự có dấu thành không dấu
-		    slug = slug.replace(/á|à|ả|ạ|ã|ă|ắ|ằ|ẳ|ẵ|ặ|â|ấ|ầ|ẩ|ẫ|ậ/gi, 'a');
-		    slug = slug.replace(/é|è|ẻ|ẽ|ẹ|ê|ế|ề|ể|ễ|ệ/gi, 'e');
-		    slug = slug.replace(/i|í|ì|ỉ|ĩ|ị/gi, 'i');
-		    slug = slug.replace(/ó|ò|ỏ|õ|ọ|ô|ố|ồ|ổ|ỗ|ộ|ơ|ớ|ờ|ở|ỡ|ợ/gi, 'o');
-		    slug = slug.replace(/ú|ù|ủ|ũ|ụ|ư|ứ|ừ|ử|ữ|ự/gi, 'u');
-		    slug = slug.replace(/ý|ỳ|ỷ|ỹ|ỵ/gi, 'y');
-		    slug = slug.replace(/đ/gi, 'd');
-		    //Xóa các ký tự đặt biệt
-		    slug = slug.replace(/\`|\~|\!|\@|\#|\||\$|\%|\^|\&|\*|\(|\)|\+|\=|\,|\.|\/|\?|\>|\<|\/ /gi, '');
-		    //Đổi khoảng trắng thành ký tự gạch ngang
-		    slug = slug.replace(/ /gi, "-");
-		    //Đổi nhiều ký tự gạch ngang liên tiếp thành 1 ký tự gạch ngang
-		    //Phòng trường hợp người nhập vào quá nhiều ký tự trắng
-		    slug = slug.replace(/\-\-\-\-\-/gi, '-');
-		    slug = slug.replace(/\-\-\-\-/gi, '-');
-		    slug = slug.replace(/\-\-\-/gi, '-');
-		    slug = slug.replace(/\-\-/gi, '-');
-		    //Xóa các ký tự gạch ngang ở đầu và cuối
-		    slug = '@' + slug + '@';
-		    slug = slug.replace(/\@\-|\-\@|\@/gi, '');
-			//In slug ra textbox có id “slug”
-			$("#slugName").val(slug)
-		});
+		
 	})
 </script>
 <%@include file="../footer.jsp"%>

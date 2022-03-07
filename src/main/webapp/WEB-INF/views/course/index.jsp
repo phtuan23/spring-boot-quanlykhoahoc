@@ -1,20 +1,20 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<html xmlns:th="http://www.thymeleaf.org">
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <%@include file="../header.jsp"%>
 <div class="content-wrapper">
 	<section class="content-header">
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1>Khoá học</h1>
+					<h1><spring:message code="course" text="default"/> </h1>
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
-						<li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-						<li class="breadcrumb-item active">Danh sách</li>
+						<li class="breadcrumb-item"><a href="#"><spring:message code="home" text="default"/></a></li>
+						<li class="breadcrumb-item active"><spring:message code="list" text="default"/></li>
 					</ol>
 				</div>
 			</div>
@@ -38,7 +38,7 @@
 					<form id="form-search" action="${request.contextPath}/course/search" method="get">
 						<div class="input-group input-group" style="width: 250px;">
 							<input type="text" id="search" class="form-control float-right"
-								placeholder="Tìm kiếm">
+								placeholder='<spring:message code="search" text="default"/>' value="${ search }">
 							<div class="input-group-append">
 								<button type="submit" class="btn btn-default">
 									<i class="fas fa-search"></i>
@@ -54,13 +54,12 @@
 					<table class="table table-hover text-nowrap">
 						<thead>
 							<tr>
-								<th>Ảnh</th>
-								<th>Tên khoá học</th>
-								<th>Tên đường dẫn</th>
-								<th>Số buổi học</th>
-								<th>Giá khoá học</th>
-								<th>Trạng thái</th>
-								<th>Danh mục</th>
+								<th><spring:message code="course.image" text="default"/></th>
+								<th><spring:message code="course.name" text="default"/></th>
+								<th><spring:message code="course.session" text="default"/></th>
+								<th><spring:message code="course.price" text="default"/></th>
+								<th><spring:message code="status" text="default"/></th>
+								<th><spring:message code="course category" text="default"/></th>
 								<th></th>
 							</tr>
 						</thead>
@@ -71,10 +70,10 @@
 										<img alt="ảnh bìa" src="${ c.image }" width="120">
 									</td>
 									<td>${ c.name }</td>
-									<td>${ c.slug }</td>
 									<td>${ c.session }</td>
 									<td>
-										<fmt:formatNumber value="${ c.price }" type="currency" pattern="#,##0" />
+										<fmt:setLocale value="${pageContext.response.locale}"/>
+										<fmt:formatNumber value="${ c.price }" type="currency" pattern="##,##0" currencyCode="VND"/>
 									</td>
 									<td>
 										<c:choose>
@@ -88,7 +87,7 @@
 									</td>
 									<td>${ c.category.name }</td>
 									<td class="text-right"><a
-										href="course/${ c.id }/update"
+										href="${request.contextPath}/course/${ c.id }/update"
 										class="btn btn-warning btn-sm"><i class="fa fa-edit"></i></a>
 										<a href="course/${ c.id }/delete"
 										class="btn btn-danger btn-sm btn-delete"><i
@@ -109,7 +108,7 @@
 										<span class="sr-only">Previous</span>
 								</a></li>
 								<c:forEach end="${ page.getTotalPages() }" begin="1" var="i">
-									<li class="page-item"><a class="page-link"
+									<li class="page-item ${ p == i ? 'active' : '' }"><a class="page-link"
 									href="?page=${ i }">${ i }</a></li> 
 								</c:forEach>
  								<li class="page-item ${ p == page.getTotalPages() ? 'disabled' : '' }">
@@ -143,7 +142,8 @@
 		let url = "http://localhost:8080/" + $(this).attr("href");
 		console.log(url)
 		Swal.fire({
-		  title: 'Bạn có chắc muốn xoá?',
+		  title: '<spring:message code="are you sure delete" text="default"/>',
+		  icon: 'warning',
 		  showCancelButton: true,
 		  confirmButtonText: 'Xoá',
 		  cancelButtonText: "Huỷ"
@@ -154,7 +154,7 @@
 				url,
 				success : res => {
 					if(res == 200){
-						Swal.fire('Xoá thành công','', 'success');
+						Swal.fire('<spring:message code="success delete" text="default"/>','', 'success');
 						$(".content").load(window.location.href + " .content>*");
 					}else{
 						Swal.fire('Không thể xoá dữ liệu hiện tại','', 'error');

@@ -9,12 +9,12 @@
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
-					<h1>Danh mục khoá học</h1>
+					<h1><spring:message code="course category"/></h1>
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
-						<li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-						<li class="breadcrumb-item active">Danh sách</li>
+						<li class="breadcrumb-item"><a href="#"><spring:message code="home"/></a></li>
+						<li class="breadcrumb-item active"><spring:message code="list"/></li>
 					</ol>
 				</div>
 			</div>
@@ -33,7 +33,7 @@
 					<form id="form-search" action="${request.contextPath}/category/search" method="get">
 						<div class="input-group input-group" style="width: 250px;">
 							<input type="text" id="search" class="form-control float-right"
-								placeholder="Tìm kiếm">
+								placeholder='<spring:message code="search"/>'>
 							<div class="input-group-append">
 								<button type="submit" class="btn btn-default">
 									<i class="fas fa-search"></i>
@@ -49,12 +49,11 @@
 					<table class="table table-hover text-nowrap">
 						<thead>
 							<tr>
-								<th>Ảnh bìa</th>
-								<th>Tên danh mục</th>
-								<th>Tên đường dẫn</th>
-								<th>Trạng thái</th>
-								<th>Ngày tạo</th>
-								<th>Tổng số khoá học</th>
+								<th><spring:message code="image"/></th>
+								<th><spring:message code="category.name"/></th>
+								<th><spring:message code="status"/></th>
+								<th><spring:message code="created"/></th>
+								<th><spring:message code="category.totalcourse"/></th>
 								<th></th>
 							</tr>
 						</thead>
@@ -65,14 +64,13 @@
 										<img alt="ảnh bìa" src="${ c.image }" width="120">
 									</td>
 									<td>${ c.name }</td>
-									<td>${ c.slug }</td>
 									<td>
 										<c:choose>
 											<c:when test="${ c.status == 1 }">
-												<span class="badge badge-success">Hiển thị</span>
+												<span class="badge badge-success"><spring:message code="publish"/></span>
 											</c:when>
 											<c:otherwise>
-												<span class="badge badge-secondary">Ẩn</span>
+												<span class="badge badge-secondary"><spring:message code="hide"/></span>
 											</c:otherwise>
 										</c:choose>
 									</td>
@@ -138,7 +136,8 @@
 		let url = "http://localhost:8080/" + $(this).attr("href");
 		console.log(url)
 		Swal.fire({
-		  title: 'Bạn có chắc muốn xoá?',
+		  title: '<spring:message code="are you sure delete"/>',
+		  icon: 'warning',
 		  showCancelButton: true,
 		  confirmButtonText: 'Xoá',
 		  cancelButtonText: "Huỷ"
@@ -149,10 +148,13 @@
 				url,
 				success : res => {
 					if(res == 200){
-						Swal.fire('Xoá thành công','', 'success');
+						Swal.fire('<spring:message code="success delete" />','', 'success');
 						$(".content").load(window.location.href + " .content>*");
 					}else{
-						Swal.fire('Không thể xoá dữ liệu hiện tại','', 'error');
+						Swal.fire({
+							title: 'Không thể xoá dữ liệu hiện tại',
+							icon: 'error'
+						});
 					}
 				}
 			}); 

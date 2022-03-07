@@ -21,11 +21,16 @@
 						  ${ error }
 						</div>
 					</c:if>
+					<c:if test="${ err_data != null }">
+						<div class="alert alert-danger failed" role="alert">
+						  ${ err_data }
+						</div>
+					</c:if>
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
-						<li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-						<li class="breadcrumb-item active">Thêm mới</li>
+						<li class="breadcrumb-item"><a href="#"><spring:message code="home" text="default"/></a></li>
+						<li class="breadcrumb-item active"><spring:message code="update" text="default"/></li>
 					</ol>
 				</div>
 			</div>
@@ -35,7 +40,7 @@
 	<section class="content">
 		<div class="card">
 			<div class="card-header">
-				<h3 class="card-title">Cập nhật Khoá học</h3>
+				<h3 class="card-title"><spring:message code="update" text="default"/></h3>
 				<div class="card-tools">
 					<button type="button" class="btn btn-tool"
 						data-card-widget="collapse" title="Collapse">
@@ -52,62 +57,66 @@
 					<div class="row">
 						<div class="col-md-8">
 							<div class="form-group">
-								<label for="exampleFormControlInput1">Ảnh</label>
+								<label for="exampleFormControlInput1"><spring:message code="course.image" text="default"/></label>
 								<img id="image_course" alt="Ảnh khoá học" src="${ course.image }" width="100%" height="400px">
 							</div>
 							
 							<div class="form-group">
-								<label for="exampleFormControlInput1">Mô tả khoá học</label>
+								<label for="exampleFormControlInput1"><spring:message code="course.image" text="default"/></label>
 								<form:textarea path="description" id="summernote"/>
 								<form:errors cssClass="errors" path="description"/>
 							</div>
 						</div>
 						<div class="col-md-4">
 							<div class="form-group">
-								<label for="exampleFormControlInput1">Tên Khoá học</label>
+								<label for="exampleFormControlInput1"><spring:message code="course.image" text="default"/></label>
 								<form:input type="text" class="form-control"
 									path="name" id="name" placeholder="Tên Khoá học" />
 								<form:errors cssClass="errors" path="name"/>
 							</div>
 							<div class="form-group">
-								<label for="exampleFormControlInput1">Tiêu đề URL</label>
+								<label for="exampleFormControlInput1"><spring:message code="course.slug" text="default"/></label>
 								<form:input type="text" class="form-control"
 									path="slug" id="slug" placeholder="Tiêu đề" />
 								<form:errors cssClass="errors" path="slug"/>
 							</div>
-							<label for="">Chọn ảnh</label>
+							<label for=""><spring:message code="course.image" text="default"/></label>
 							<div class="custom-file">
 								  <input type="file" name="upload" class="custom-file-input" id="customFile">
-								  <label class="custom-file-label" for="customFile">Chọn ảnh</label>
-								  <p class="errors err_image">${ err_image }</p>
+								  <label class="custom-file-label" for="customFile">${course.image }</label>
+								  <c:if test="${ err_image != null }">
+								  	<p class="errors">
+									  	<spring:message code="validate.course.image" text=""/>
+									  </p>
+								  </c:if>
 							</div>
 							<div class="form-group mt-3">
-								<label for="exampleFormControlInput1">Số buổi học</label>
+								<label for="exampleFormControlInput1"><spring:message code="course.session" text="default"/></label>
 								<form:input type="text" class="form-control"
 									path="session" placeholder="Số buổi học" />
 								<form:errors cssClass="errors" path="session"/>
 							</div>
 							<div class="form-group">
-								<label for="exampleFormControlInput1">Giá khoá học</label>
+								<label for="exampleFormControlInput1"><spring:message code="course.price" text="default"/></label>
 								<form:input class="form-control"
 									path="price" placeholder="Giá khoá học" />
 								<form:errors cssClass="errors" path="price"/>
 							</div>
 							<div class="form-group">
-								<label for="exampleFormControlSelect1">Danh mục</label>
+								<label for="exampleFormControlSelect1"><spring:message code="course category" text="default"/></label>
 								<form:select class="form-control" path="category.id">
 									<form:options items="${ categories }" itemValue="id" itemLabel="name"/>
 								</form:select>
 							</div>
 							<div class="form-group">
-								<label for="exampleFormControlSelect1">Trạng thái</label>
+								<label for="exampleFormControlSelect1"><spring:message code="status" text="default"/></label>
 								<form:select class="form-control" path="status">
-									<form:option value="0">Ẩn</form:option>
-									<form:option value="1">Hiển thị</form:option>
+									<form:option value="0"><spring:message code="hide" text="default"/></form:option>
+									<form:option value="1"><spring:message code="publish" text="default"/></form:option>
 								</form:select>
 							</div>
 							<div class="form-group">
-								<label for="exampleFormControlInput1">Ngày tạo</label>
+								<label for="exampleFormControlInput1"><spring:message code="created" text="default"/></label>
 								<form:input type="date" class="form-control date"
 									path="created" />
 								<form:errors cssClass="errors" path="created"/>

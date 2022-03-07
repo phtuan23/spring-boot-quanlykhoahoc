@@ -21,11 +21,16 @@
 						  ${ error }
 						</div>
 					</c:if>
+					<c:if test="${ data_err != null }">
+						<div class="alert alert-danger failed" role="alert">
+						  ${ data_err }
+						</div>
+					</c:if>
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
-						<li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
-						<li class="breadcrumb-item active">Thêm mới</li>
+						<li class="breadcrumb-item"><a href="#"><spring:message code="home"/></a></li>
+						<li class="breadcrumb-item active"><spring:message code="create"/></li>
 					</ol>
 				</div>
 			</div>
@@ -35,7 +40,7 @@
 	<section class="content">
 		<div class="card">
 			<div class="card-header">
-				<h3 class="card-title">Thêm mới Danh mục khoá học</h3>
+				<h3 class="card-title"><spring:message code="category.add"/></h3>
 				<div class="card-tools">
 					<button type="button" class="btn btn-tool"
 						data-card-widget="collapse" title="Collapse">
@@ -52,17 +57,17 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="exampleFormControlInput1">Tên Danh mục</label>
+								<label for="exampleFormControlInput1"><spring:message code="category.name"/></label>
 								<form:input type="text" class="form-control"
-									path="name" id="name" placeholder="Tên Danh mục" />
+									path="name" id="name"  />
 								<form:errors cssClass="errors" path="name"/>
 							</div>
 						</div>
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="exampleFormControlInput1">Tiêu đề URL</label>
+								<label for="exampleFormControlInput1">Slug</label>
 								<form:input type="text" class="form-control"
-									path="slug" id="slug" placeholder="Tiêu đề" />
+									path="slug" id="slug"  />
 								<form:errors cssClass="errors" path="slug"/>
 							</div>
 						</div>
@@ -70,26 +75,28 @@
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="exampleFormControlSelect1">Trạng thái</label>
+								<label for="exampleFormControlSelect1"><spring:message code="status"/></label>
 								<form:select class="form-control" path="status">
-									<form:option value="0">Ẩn</form:option>
-									<form:option value="1">Hiển thị</form:option>
+									<form:option value="0"><spring:message code="hide"/></form:option>
+									<form:option value="1"><spring:message code="publish"/></form:option>
 								</form:select>
 							</div>
 						</div>
 						<div class="col-md-6">
-							<label for="exampleFormControlSelect1">Chọn ảnh</label>
+							<label for="exampleFormControlSelect1"><spring:message code="course.image"/></label>
 							<div class="custom-file">
 								  <input type="file" name="upload" class="custom-file-input" id="customFile">
-								  <label class="custom-file-label" for="customFile">Chọn ảnh</label>
-								  <p class="errors err_image">${ err_image }</p>
+								  <label class="custom-file-label" for="customFile"><spring:message code="course.image"/></label>
+								  <c:if test="${ err_image != null }">
+								  	<p class="errors"><spring:message code="validate.category.image.req"/></p>
+								  </c:if>
 							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6">
 							<div class="form-group">
-								<label for="exampleFormControlInput1">Ngày tạo</label>
+								<label for="exampleFormControlInput1"><spring:message code="created"/></label>
 								<form:input type="date" class="form-control date"
 									path="created" />
 								<form:errors cssClass="errors" path="created"/>

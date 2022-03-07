@@ -11,4 +11,7 @@ public interface IUserRoleRepository extends JpaRepository<UserRole, Integer>{
 	
 	@Query("SELECT ur FROM UserRole ur WHERE ur.user.username = ?1 AND ur.user.password = ?2")
 	public UserRole checkLogin(String username, String password);
+	
+	@Query("SELECT ur FROM UserRole ur WHERE ur.user.id = ?1")
+	public UserRole getByIdUser(Integer userId);
 }

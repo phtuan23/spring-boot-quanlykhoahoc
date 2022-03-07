@@ -31,4 +31,7 @@ public interface IMarkRepository extends JpaRepository<Score, Integer>{
 	
 	@Query("SELECT s FROM Score s WHERE s.student.studentCode = ?1")
 	public List<Score> checkScore(String studentCode);
+	
+	@Query("SELECT s FROM Score s WHERE s.student.id = ?1 AND s.subject.id = ?2")
+	public Score getByStdIdAndSubId(Integer studentId, Integer subjectId);
 }

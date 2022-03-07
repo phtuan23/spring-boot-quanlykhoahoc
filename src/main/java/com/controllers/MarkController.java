@@ -140,8 +140,13 @@ public class MarkController {
 	@GetMapping("/update")
 	@ResponseBody
 	public int update(@RequestParam("studentId") Integer studentId, @RequestParam("subjectId") Integer subjectId, 
-			@RequestParam("score") Float score) {
-		
+			@RequestParam("mark")  Float score) {
+		if (score < 0 || score > 10) {
+			return 400;
+		}
+		Score s = markRepository.getByStdIdAndSubId(studentId, subjectId);
+		s.setScore(score);
+		markRepository.save(s);
 		return 200;
 	}
 	

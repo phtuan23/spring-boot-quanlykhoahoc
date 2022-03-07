@@ -22,6 +22,11 @@
 						  ${ error }
 						</div>
 					</c:if>
+					<c:if test="${ err_data != null }">
+						<div class="alert alert-danger failed" role="alert">
+						  ${ err_data }
+						</div>
+					</c:if>
 				</div>
 				<div class="col-sm-6">
 					<ol class="breadcrumb float-sm-right">
@@ -55,13 +60,13 @@
 							<div class="form-group">
 								<label for="exampleFormControlInput1"><spring:message code="course.name" text="default"/></label>
 								<form:input type="text" class="form-control"
-									path="name" id="name" placeholder="Tên Khoá học" />
+									path="name" id="name" />
 								<form:errors cssClass="errors" path="name"/>
 							</div>
 							<div class="form-group">
 								<label for="exampleFormControlInput1"><spring:message code="course.slug" text="default"/></label>
 								<form:input type="text" class="form-control"
-									path="slug" id="slug" placeholder="Tiêu đề" />
+									path="slug" id="slug"  />
 								<form:errors cssClass="errors" path="slug"/>
 							</div>
 							<div class="form-group">
@@ -77,20 +82,20 @@
 								  <label class="custom-file-label" for="customFile"><spring:message code="course.image" text="default"/></label>
 								  <c:if test="${ err_image != null }">
 								  	<p class="errors">
-									  	<spring:message code="validate.course.image" text="default"/>
+									  	<spring:message code="validate.course.image" text=""/>
 									  </p>
 								  </c:if>
 							</div>
 							<div class="form-group mt-3">
 								<label for="exampleFormControlInput1"><spring:message code="course.session" text="default"/></label>
 								<form:input type="text" class="form-control"
-									path="session" placeholder="Số buổi học" />
+									path="session"  />
 								<form:errors cssClass="errors" path="session"/>
 							</div>
 							<div class="form-group">
 								<label for="exampleFormControlInput1"><spring:message code="course.price" text="default"/></label>
 								<form:input class="form-control"
-									path="price" placeholder="Giá khoá học" />
+									path="price"  />
 								<form:errors cssClass="errors" path="price"/>
 							</div>
 							<div class="form-group">
